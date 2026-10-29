@@ -33,7 +33,7 @@ let name = days[num];
 
 // STEP 5: Display the day name in the element with ID "warmUpDate"
 //         using document.getElementById("warmUpDate").innerHTML
-document.getElementById("warmUpDate").innerHTML;
+document.getElementById("warmUpDate").innerHTML = name;
 
 
 // ============================================
@@ -49,7 +49,7 @@ document.getElementById("warmUpDate").innerHTML;
 // STEP 7: Get the month using .getMonth()
 //         IMPORTANT: .getMonth() returns 0–11 (January = 0)
 //         so you must add 1 to get the correct month number.
-let month = now.getMonth();
+let month = now.getMonth()+1;
 
 // STEP 8: Get the day of the month using .getDate()
 let day = now.getDate();
@@ -59,7 +59,7 @@ let year = now.getFullYear();
 
 // STEP 10: Build the date string: month + "/" + day + "/" + year
 //          Display it in the element with ID "myDate"
-Element.getElementById("myDate").innerHTML = month + "/" + day + "/" + year;
+document.getElementById("myDate").innerHTML = month + "/" + day + "/" + year;
 
 
 // ============================================
@@ -80,8 +80,10 @@ let start = new Date().getTime();
 //          b) Calculate elapsed seconds: (currentTime - startTime) / 1000
 //          c) Display the elapsed time using .toFixed(3)
 //             in the element with ID "myTimer"
-let time = ((new Date().getTime() - start)/1000).toFixed(3);
-Element.getElementById("myTimer").innerHTML = time;
+let timer = setInterval(function(){
+    let time = ((new Date().getTime() - start)/1000).toFixed(3);
+    document.getElementById("myTimer").innerHTML = time;
+}, 10);
 
 
 // ============================================
@@ -97,6 +99,7 @@ Element.getElementById("myTimer").innerHTML = time;
 
 // STEP 13: Create a variable to track whether the timer is
 //          currently running (let running = true;)
+let running = true;
 
 // STEP 14: Add a click event listener to the button (ID "myBtn").
 //          Inside the listener:
@@ -109,3 +112,19 @@ Element.getElementById("myTimer").innerHTML = time;
 //             - Start a new setInterval (same as STEP 12)
 //             - Change button innerHTML to "Stop"
 //             - Set running to true
+document.getElementById("myBtn").addEventListener("click", function(){
+    if(running){
+        clearInterval(timer);
+        this.innerHTML = "Start";
+        running = false;
+    }
+    else{
+        start = new Date().getTime();
+        timer = setInterval(function(){
+            let time = ((new Date().getTime() - start)/1000).toFixed(3);
+            document.getElementById("myTimer").innerHTML = time;
+        }, 10);
+        this.innerHTML = "Stop";
+        running = true; 
+    }
+});
